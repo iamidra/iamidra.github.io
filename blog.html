@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog & Writeups - Idra Mkumbanya | Security & Dev Notes</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="description" content="Security writeups, CTF notes, networking guides, and web development articles by Idra Mkumbanya." />
+    <meta name="keywords" content="CTF Writeups, Cybersecurity Blog, Web Development, TryHackMe, CCNA Notes, Tanzania" />
+    <meta name="author" content="Idra Mkumbanya" />
+    <meta property="og:title" content="Blog & Writeups - Idra Mkumbanya" />
+    <meta property="og:description" content="Security writeups, CTF notes, and dev articles." />
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <a href="#ajax-content" class="skip-link">Skip to main content</a>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">Swahili<span>Cyber</span></div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul id="nav-menu" role="list">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="project.html">WORK</a></li>
+            <li><a href="aboutme.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="survey.html">SURVEY</a></li>
+            <li><a href="blog.html" class="active">BLOG</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">🌙</button>
+            <a href="contact.html" class="talk-btn">LET'S TALK</a>
+        </div>
+    </nav>
+
+    <main id="ajax-content">
+
+        <!-- ===== PAGE HEADER ===== -->
+        <div class="blog-page-header">
+            <span class="page-label">WRITEUPS &amp; NOTES</span>
+            <h1>Blog</h1>
+            <p>CTF writeups, security research notes, networking guides, and web development deep-dives — written as I learn.</p>
+
+            <!-- Category filters -->
+            <div class="blog-filters" role="group" aria-label="Filter posts by category">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="ctf">🚩 CTF</button>
+                <button class="filter-btn" data-filter="security">🔒 Security</button>
+                <button class="filter-btn" data-filter="networking">🌐 Networking</button>
+                <button class="filter-btn" data-filter="webdev">💻 Web Dev</button>
+            </div>
+        </div>
+
+        <!-- ===== PINNED / FEATURED POST ===== -->
+        <article class="blog-featured" data-category="ctf">
+            <div class="blog-featured-meta">
+                <span class="blog-tag">🚩 CTF</span>
+                <span class="blog-tag pinned">📌 Featured</span>
+                <span class="blog-date">Coming Soon</span>
+            </div>
+            <h2>Getting Started with CTF Challenges — Tools, Mindset &amp; First Wins</h2>
+            <p>My first experience with Capture the Flag competitions — the tools I use, the mindset shift it requires, and the lessons learned from working through TryHackMe rooms. A beginner's honest guide.</p>
+            <div class="blog-post-meta">
+                <span>📖 ~8 min read</span>
+                <span>🏷️ TryHackMe · Beginner · Linux</span>
+            </div>
+            <a href="post/ctf-getting-started.html" class="btn-primary blog-read-btn">Read Post →</a>
+        </article>
+
+        <!-- ===== POSTS GRID ===== -->
+        <section class="blog-grid" id="blog-grid" aria-label="Blog posts">
+
+            <article class="blog-card" data-category="security">
+                <div class="blog-card-top">
+                    <span class="blog-tag">🔒 Security</span>
+                    <span class="blog-date">Coming Soon</span>
+                </div>
+                <h3>OWASP Top 10 — What Every Developer Should Know</h3>
+                <p>A practical breakdown of the most critical web application security risks in 2024, with real examples and prevention techniques every developer should apply from day one.</p>
+                <div class="blog-post-meta">
+                    <span>📖 ~10 min read</span>
+                    <span>🏷️ OWASP · Web Security · PHP</span>
+                </div>
+                <a href="#" class="blog-link">Read more →</a>
+            </article>
+
+            <article class="blog-card" data-category="networking">
+                <div class="blog-card-top">
+                    <span class="blog-tag">🌐 Networking</span>
+                    <span class="blog-date">Coming Soon</span>
+                </div>
+                <h3>CCNA Notes: Subnetting Made Simple</h3>
+                <p>The subnetting approach that finally made it click for me — a step-by-step method using the "magic number" technique, with practice examples and a printable cheatsheet.</p>
+                <div class="blog-post-meta">
+                    <span>📖 ~6 min read</span>
+                    <span>🏷️ CCNA · IP · Subnetting</span>
+                </div>
+                <a href="#" class="blog-link">Read more →</a>
+            </article>
+
+            <article class="blog-card" data-category="ctf">
+                <div class="blog-card-top">
+                    <span class="blog-tag">🚩 CTF</span>
+                    <span class="blog-date">June 2025</span>
+                </div>
+                <h3>TryHackMe Room Writeup: Basic Pentesting</h3>
+                <p>A full walkthrough of the TryHackMe "Basic Pentesting" room — enumeration with Nmap, exploiting SSH, cracking hashes with John the Ripper, and privilege escalation.</p>
+                <div class="blog-post-meta">
+                    <span>📖 ~12 min read</span>
+                    <span>🏷️ Pentesting · Nmap · Linux</span>
+                </div>
+                <a href="post/ctf-getting-started.html" class="blog-link">Read more →</a>
+            </article>
+
+            <article class="blog-card" data-category="webdev">
+                <div class="blog-card-top">
+                    <span class="blog-tag">💻 Web Dev</span>
+                    <span class="blog-date">Coming Soon</span>
+                </div>
+                <h3>Building a Secure PHP Contact Form from Scratch</h3>
+                <p>How to build a contact form that actually protects against spam, SQL injection, and XSS — covering input sanitisation, CSRF tokens, rate limiting, and Formspree as an alternative.</p>
+                <div class="blog-post-meta">
+                    <span>📖 ~9 min read</span>
+                    <span>🏷️ PHP · Security · Forms</span>
+                </div>
+                <a href="#" class="blog-link">Read more →</a>
+            </article>
+
+            <article class="blog-card" data-category="security">
+                <div class="blog-card-top">
+                    <span class="blog-tag">🔒 Security</span>
+                    <span class="blog-date">Coming Soon</span>
+                </div>
+                <h3>Linux Hardening Checklist for Beginners</h3>
+                <p>The essential steps I follow when setting up a new Linux server — disabling root SSH, configuring UFW, setting up fail2ban, and auditing open ports. A practical checklist you can copy.</p>
+                <div class="blog-post-meta">
+                    <span>📖 ~7 min read</span>
+                    <span>🏷️ Linux · Hardening · Server</span>
+                </div>
+                <a href="#" class="blog-link">Read more →</a>
+            </article>
+
+            <article class="blog-card" data-category="networking">
+                <div class="blog-card-top">
+                    <span class="blog-tag">🌐 Networking</span>
+                    <span class="blog-date">Coming Soon</span>
+                </div>
+                <h3>How DNS Actually Works — and Why It Matters for Security</h3>
+                <p>A clear explanation of the DNS resolution process from browser to root server and back, plus how attackers exploit DNS and how DNSSEC helps defend against it.</p>
+                <div class="blog-post-meta">
+                    <span>📖 ~8 min read</span>
+                    <span>🏷️ DNS · DNSSEC · Networking</span>
+                </div>
+                <a href="#" class="blog-link">Read more →</a>
+            </article>
+
+        </section>
+
+        <!-- ===== NEWSLETTER / NOTIFY ===== -->
+        <section class="blog-notify-section">
+            <div class="blog-notify-box">
+                <span class="notify-icon">📬</span>
+                <h2>Get Notified When I Post</h2>
+                <p>New writeups and articles dropping as I work through CCNA, Security+, and CTF challenges. No spam — just new posts.</p>
+                <div class="notify-form">
+                    <input type="email" id="notify-email" placeholder="your.email@example.com" autocomplete="email" />
+                    <button class="btn-primary" id="notify-btn">Notify Me</button>
+                </div>
+                <p class="form-privacy">🔒 Email used only for post notifications. Unsubscribe any time.</p>
+            </div>
+        </section>
+
+        <!-- ===== CTA ===== -->
+        <section class="cta-section">
+            <h2>Want to Collaborate on a Writeup?</h2>
+            <p>If you've solved a CTF challenge or want to co-write a security article, let's connect.</p>
+            <a href="contact.html" class="btn-primary">Get In Touch</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+            <a href="contact.html">📧 Contact</a>
+            <a href="survey.html">📝 Give Feedback</a>
+            <a href="#" id="scroll-top">⬆️ Back to Top</a>
+        </div>
+    </footer>
+</body>
+</html>

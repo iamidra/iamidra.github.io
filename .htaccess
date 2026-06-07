@@ -1,0 +1,76 @@
+# =====================================================
+# IDRA MKUMBANYA PORTFOLIO — SECURITY CONFIGURATION
+# Place this file at: mywebsite/.htaccess
+# =====================================================
+
+# ── Require Apache mod_headers ──────────────────────
+<IfModule mod_headers.c>
+
+    # Content Security Policy
+    # Allows: your own files + Google Fonts + Formspree
+    # Blocks: inline scripts (except specific ones), unknown origins
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formspree.io; frame-ancestors 'none';"
+
+    # Prevent MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Block clickjacking — no one can embed your site in an iframe
+    Header set X-Frame-Options "DENY"
+
+    # Enable browser XSS protection (older browsers)
+    Header set X-XSS-Protection "1; mode=block"
+
+    # Referrer Policy — don't leak your URL to third parties
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Permissions Policy — disable features you don't use
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), gyroscope=(), magnetometer=()"
+
+    # Remove server signature header
+    Header unset Server
+    Header unset X-Powered-By
+
+</IfModule>
+
+# ── Force HTTPS (uncomment when you have SSL) ────────
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# ── Block access to sensitive files ─────────────────
+<FilesMatch "(^\.htaccess|\.htpasswd|\.env|\.git|\.log|\.bak|\.sql|\.sh)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ── Block directory listing ───────────────────────────
+Options -Indexes
+
+# ── Block access to the security/ folder itself ──────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^security/ - [F,L]
+</IfModule>
+
+# ── Disable ETags (prevent info leakage) ─────────────
+FileETag None
+
+# ── Custom error pages ───────────────────────────────
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+# ── Limit file upload size (10MB max) ────────────────
+LimitRequestBody 10485760
+
+# ── Cache static assets ──────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css               "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png              "access plus 3 months"
+    ExpiresByType image/jpeg             "access plus 3 months"
+    ExpiresByType image/svg+xml          "access plus 3 months"
+    ExpiresByType image/webp             "access plus 3 months"
+</IfModule>

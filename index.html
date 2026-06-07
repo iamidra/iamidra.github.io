@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idra Mkumbanya - Developer & Security Professional</title>
+    <link rel="icon" type="image/svg+xml" href="pictures/favicon.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="description" content="Idra Mkumbanya - Computer Networks and Information Security student at University of Dodoma. Web developer and cybersecurity enthusiast." />
+    <meta name="keywords" content="Idra Mkumbanya, Portfolio, Web Developer, Cybersecurity, Dodoma, Tanzania" />
+    <meta name="author" content="Idra Mkumbanya" />
+    <meta property="og:title" content="Idra Mkumbanya - Developer & Security Professional" />
+    <meta property="og:description" content="Portfolio of Idra Mkumbanya - Web Developer and Cybersecurity Student" />
+    <meta property="og:type" content="website" />
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <a href="#ajax-content" class="skip-link">Skip to main content</a>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">Swahili<span>Cyber</span></div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul id="nav-menu" role="list">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="project.html">WORK</a></li>
+            <li><a href="aboutme.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="survey.html">SURVEY</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">🌙</button>
+            <a href="contact.html" class="talk-btn">LET'S TALK</a>
+            <a href="#" class="btn-cv" id="download-cv">Download CV</a>
+        </div>
+    </nav>
+
+    <main id="ajax-content">
+
+        <!-- ===== HERO ===== -->
+        <header>
+            <div class="avatar-wrap">
+                <!--
+                    Replace src with your actual photo path e.g. "pictures/developer.png"
+                    The SVG initials show automatically if the image is missing.
+                -->
+                <img
+                    id="profile-img"
+                    src="pictures/developer.png"
+                    alt="Idra Mkumbanya — Web Developer and Security Professional"
+                    class="profile-photo"
+                    width="200" height="200"
+                    loading="eager"
+                />
+                <div class="avatar-fallback" aria-hidden="true">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="avatarGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%"   stop-color="#00d9ff"/>
+                                <stop offset="100%" stop-color="#8b5cf6"/>
+                            </linearGradient>
+                        </defs>
+                        <circle  cx="50" cy="34" r="21" fill="url(#avatarGrad)" opacity="0.9"/>
+                        <ellipse cx="50" cy="80" rx="29" ry="22" fill="url(#avatarGrad)" opacity="0.7"/>
+                        <text x="50" y="40" text-anchor="middle" dominant-baseline="middle"
+                              font-family="Syne,sans-serif" font-size="19" font-weight="900"
+                              fill="#020617">IM</text>
+                    </svg>
+                </div>
+            </div>
+
+            <p id="greeting" class="greeting-text">Hello!</p>
+            <div class="open-to-work-badge" aria-label="Currently open to work">
+                <span class="otw-dot"></span>
+                Open to Internships &amp; Freelance · June 2026
+            </div>
+            <h1>Hi, I'm Idra</h1>
+
+            <!--
+                The typing line below shows your STATIC_TITLE first (types once, stays),
+                then cycles through CYCLING_WORDS from script.js.
+                To change what's displayed, edit STATIC_TITLE and CYCLING_WORDS in script.js.
+            -->
+            <p class="typing-text"><span id="changing-text"></span></p>
+
+            <p class="hero-desc">
+                Computer Networks and Information Security student at the University of Dodoma —
+                building secure web applications, network solutions, and modern digital experiences.
+            </p>
+            <div class="hero-buttons">
+                <a href="project.html" class="btn-primary">View My Work</a>
+                <a href="contact.html" class="btn-secondary">Get In Touch</a>
+            </div>
+        </header>
+
+        <!-- ===== STATS ===== -->
+        <section class="stats-section" aria-label="Quick stats">
+            <div class="stat-box"><h3>4+</h3><p>Projects Completed</p></div>
+            <div class="stat-box"><h3>2+</h3><p>Years Learning</p></div>
+            <div class="stat-box"><h3>5+</h3><p>Technologies Used</p></div>
+            <div class="stat-box"><h3>100%</h3><p>Dedication</p></div>
+        </section>
+
+        <!-- ===== SERVICES ===== -->
+        <section>
+            <h2>What I Do</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🌐</span>
+                    <h3>Web Development</h3>
+                    <p>Building responsive, modern websites using HTML, CSS, JavaScript, PHP, and MySQL.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🔒</span>
+                    <h3>Cybersecurity</h3>
+                    <p>Applying security principles to protect systems, networks, and data from threats.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🖧</span>
+                    <h3>Networking</h3>
+                    <p>Designing and securing network infrastructure — routing, switching, and firewalls.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TECH STACK ===== -->
+        <section>
+            <h2>Tech Stack</h2>
+            <div class="tech-stack-showcase" aria-label="Technologies I work with">
+                <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
+                <span>PHP</span><span>MySQL</span><span>Linux</span>
+                <span>Git</span><span>Networking</span><span>Cybersecurity</span>
+            </div>
+        </section>
+
+        <!-- ===== FEATURED PROJECTS ===== -->
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="projects-container">
+                <div class="project-card">
+                    <img src="pictures/rest.png" alt="Al Rant Restaurant website" loading="lazy" width="400" height="210"/>
+                    <div class="project-info">
+                        <h3>Al Rant Restaurant</h3>
+                        <p class="proj-desc">Modern restaurant website with an interactive menu, online reservation system, and responsive design.</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">HTML</span><span class="tech-badge">CSS</span>
+                            <span class="tech-badge">JavaScript</span><span class="tech-badge">PHP</span><span class="tech-badge">MySQL</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="proj-link">🔗 Live Demo</a>
+                            <a href="https://github.com/iamidra" class="proj-link" target="_blank" rel="noopener noreferrer">📂 GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <img src="pictures/life.png" alt="Safari Conservation awareness platform" loading="lazy" width="400" height="210"/>
+                    <div class="project-info">
+                        <h3>Safari Conservation</h3>
+                        <p class="proj-desc">Interactive awareness platform promoting wildlife conservation in Tanzania with educational content.</p>
+                        <div class="tech-stack">
+                            <span class="tech-badge">HTML</span><span class="tech-badge">CSS</span><span class="tech-badge">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="proj-link">🔗 Live Demo</a>
+                            <a href="https://github.com/iamidra" class="proj-link" target="_blank" rel="noopener noreferrer">📂 GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== TERMINAL ===== -->
+        <section>
+            <h2>About Me</h2>
+            <div class="terminal-box" role="region" aria-label="About me in terminal style">
+<pre><span class="cmd">$ whoami</span>
+<span class="val">Idra Mkumbanya</span>
+
+<span class="cmd">$ role</span>
+<span class="val">Web Developer | Cybersecurity Student</span>
+
+<span class="cmd">$ university</span>
+<span class="val">University of Dodoma</span>
+
+<span class="cmd">$ interests</span>
+<span class="val">Web Development | Network Security | Linux Systems | Databases</span>
+
+<span class="cmd">$ goal</span>
+<span class="val">Full Stack Developer | Cybersecurity Specialist</span></pre>
+            </div>
+        </section>
+
+        <!-- ===== CERTIFICATIONS ===== -->
+        <section class="certs-section" aria-label="Certifications and learning">
+            <h2>🎓 Certifications &amp; Learning</h2>
+            
+            <div class="certs-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">🔒</div>
+                    <div class="cert-info">
+                        <h3>CompTIA Security+</h3>
+                        <span class="cert-status in-progress">In Progress</span>
+                        <p>Foundational cybersecurity — threats, cryptography, identity management &amp; risk.</p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">🌐</div>
+                    <div class="cert-info">
+                        <h3>Cisco CCNA</h3>
+                        <span class="cert-status in-progress">In Progress</span>
+                        <p>Networking fundamentals — routing, switching, VLANs, OSPF &amp; network security.</p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">🚩</div>
+                    <div class="cert-info">
+                        <h3>TryHackMe</h3>
+                        <span class="cert-status active">Active</span>
+                        <p>Hands-on CTF challenges covering penetration testing, web security &amp; forensics.</p>
+                    </div>
+                </div>
+                <div class="cert-card">
+                    <div class="cert-icon">🎓</div>
+                    <div class="cert-info">
+                        <h3>B.Sc. Computer Networks &amp; InfoSec</h3>
+                        <span class="cert-status in-progress">In Progress</span>
+                        <p>University of Dodoma.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== BLOG TEASER ===== -->
+        <section class="blog-teaser-section">
+            <h2>📝 From the Blog</h2>
+            <p class="section-intro">CTF writeups, security notes, and web dev deep-dives. New posts as I learn.</p>
+            <div class="blog-teaser-grid">
+                <a href="blog.html" class="blog-teaser-card">
+                    <span class="blog-tag">CTF</span>
+                    <h3>Getting Started with CTF Challenges</h3>
+                    <p>My first experience with Capture the Flag — tools, mindset, and lessons from TryHackMe.</p>
+                    <span class="blog-read-more">Read more →</span>
+                </a>
+                <a href="blog.html" class="blog-teaser-card">
+                    <span class="blog-tag">Security</span>
+                    <h3>OWASP Top 10 — What Every Developer Should Know</h3>
+                    <p>A practical breakdown of the most critical web application security risks and how to prevent them.</p>
+                    <span class="blog-read-more">Read more →</span>
+                </a>
+                <a href="blog.html" class="blog-teaser-card">
+                    <span class="blog-tag">Networking</span>
+                    <h3>CCNA Notes: Subnetting Made Simple</h3>
+                    <p>The subnetting method that finally made it click for me — with examples and a handy cheatsheet.</p>
+                    <span class="blog-read-more">Read more →</span>
+                </a>
+            </div>
+            <div style="text-align:center;margin-top:32px;">
+                <a href="blog.html" class="btn-secondary">View All Posts →</a>
+            </div>
+        </section>
+
+        <!-- ===== CTA ===== -->
+        <section class="cta-section">
+            <h2>Let's Build Something Secure</h2>
+            <p>Interested in working together or discussing technology, development, or cybersecurity?</p>
+            <a href="contact.html" class="btn-primary">Contact Me</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+            <a href="contact.html">📧 Contact</a>
+            <a href="survey.html">📝 Give Feedback</a>
+        </div>
+    </footer>
+</body>
+</html>

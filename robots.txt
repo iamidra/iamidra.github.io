@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Keep the security folder private from crawlers
+Disallow: /security/
+
+# Block access to post drafts if you have any
+# Disallow: /post/drafts/
+
+Sitemap: https://yourdomain.com/sitemap.xml

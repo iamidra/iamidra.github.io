@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Survey - Share Your Feedback | Idra Mkumbanya</title>
+    <link rel="icon" type="image/svg+xml" href="pictures/favicon.svg" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="description" content="Help Idra Mkumbanya improve by sharing your feedback about this portfolio website. Takes less than 3 minutes." />
+    <meta name="keywords" content="Feedback, Survey, Portfolio Review, Idra Mkumbanya" />
+    <meta name="author" content="Idra Mkumbanya" />
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <a href="#ajax-content" class="skip-link">Skip to main content</a>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">Swahili<span>Cyber</span></div>
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul id="nav-menu" role="list">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="project.html">WORK</a></li>
+            <li><a href="aboutme.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+            <li><a href="survey.html" class="active">SURVEY</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+        </ul>
+
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">🌙</button>
+            <a href="contact.html" class="talk-btn">LET'S TALK</a>
+        </div>
+    </nav>
+
+    <main id="ajax-content">
+
+        <!-- ===== PAGE HEADER ===== -->
+        <div class="survey-page-header">
+            <span class="page-label">YOUR OPINION MATTERS</span>
+            <h1>📝 Share Your Feedback</h1>
+            <p>Your feedback helps me grow as a developer. Takes less than 3 minutes — I read every single response.</p>
+        </div>
+
+        <!-- ===== SURVEY FORM ===== -->
+        <div class="form-box">
+            <form id="survey-form" novalidate>
+
+                <div class="input-group">
+                    <label for="fullname">Full Name *</label>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required autocomplete="name" />
+                </div>
+
+                <div class="input-group">
+                    <label for="survey-email">Email Address (Optional)</label>
+                    <input type="email" id="survey-email" name="email" placeholder="So I can follow up if needed" autocomplete="email" />
+                </div>
+
+                <fieldset class="input-group">
+                    <legend>How did you find my portfolio? *</legend>
+                    <div class="radio-group" role="radiogroup">
+                        <label><input type="radio" name="source" value="friend" required /> 👥 Friend / Colleague</label>
+                        <label><input type="radio" name="source" value="internet" /> 🔍 Internet Search</label>
+                        <label><input type="radio" name="source" value="social" /> 📱 Social Media</label>
+                        <label><input type="radio" name="source" value="github" /> 🐙 GitHub</label>
+                        <label><input type="radio" name="source" value="other" /> ✨ Other</label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="input-group">
+                    <legend>What skills should I prioritise improving? (Select all that apply)</legend>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="skills" value="frontend" /> 🎨 Frontend Design</label>
+                        <label><input type="checkbox" name="skills" value="security" /> 🔒 Cybersecurity</label>
+                        <label><input type="checkbox" name="skills" value="backend" /> ⚙️ Backend Development</label>
+                        <label><input type="checkbox" name="skills" value="database" /> 🗄️ Database Design</label>
+                        <label><input type="checkbox" name="skills" value="uiux" /> 📐 UI/UX Design</label>
+                        <label><input type="checkbox" name="skills" value="mobile" /> 📱 Mobile Development</label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="input-group">
+                    <legend>How would you rate my portfolio? *</legend>
+                    <div class="radio-group" role="radiogroup">
+                        <label><input type="radio" name="rating" value="5" required /> ⭐⭐⭐⭐⭐ Excellent</label>
+                        <label><input type="radio" name="rating" value="4" /> ⭐⭐⭐⭐ Good</label>
+                        <label><input type="radio" name="rating" value="3" /> ⭐⭐⭐ Average</label>
+                        <label><input type="radio" name="rating" value="2" /> ⭐⭐ Below Average</label>
+                        <label><input type="radio" name="rating" value="1" /> ⭐ Poor</label>
+                    </div>
+                </fieldset>
+
+                <div class="input-group">
+                    <label for="likes">What did you like most?</label>
+                    <textarea id="likes" name="likes" rows="3" placeholder="Tell me what impressed you..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="improvements">What could be improved?</label>
+                    <textarea id="improvements" name="improvements" rows="3" placeholder="Your honest feedback helps me grow..."></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="comments">Additional Comments / Suggestions</label>
+                    <textarea id="comments" name="comments" rows="4" placeholder="Anything else you'd like to share?"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="newsletter" value="yes" />
+                            📧 Keep me updated about future projects and blog posts
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">✨ SUBMIT FEEDBACK</button>
+                <p class="form-privacy">🔒 Your responses are private and used only to improve this portfolio.</p>
+
+            </form>
+        </div>
+
+        <!-- ===== TESTIMONIALS ===== -->
+        <section class="testimonials-section">
+            <div class="section-header">
+                <h2>What People Say</h2>
+                <p>Recent feedback from survey submissions. Your response appears here after you submit.</p>
+            </div>
+            <!--
+                JS replaces these placeholder cards with real survey submissions
+                (stored in localStorage) as soon as any exist.
+                Until then the 3 starter cards below are shown.
+            -->
+            <div class="testimonials-grid" id="survey-testimonials">
+                <div class="testimonial-card">
+                    <p>"Great attention to detail and really listens to client needs. Delivered exactly what I envisioned."</p>
+                    <span class="testimonial-author">— Mohamed J., Restaurant Owner</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Professional, responsive, and delivers quality work on time. Would definitely work with Idra again."</p>
+                    <span class="testimonial-author">— Sarah K., Tourism Company</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Knowledgeable about both development and security — a rare combination that made our project much stronger."</p>
+                    <span class="testimonial-author">— David M., Collaborator</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+            <a href="contact.html">📧 Contact</a>
+            <a href="#" id="scroll-top">⬆️ Back to Top</a>
+        </div>
+    </footer>
+</body>
+</html>
