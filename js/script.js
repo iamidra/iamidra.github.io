@@ -375,21 +375,32 @@ function initNotifyForm() {
 // NAVIGATION HELPERS
 // =========================
 function setActiveNavLink(pageUrl) {
+    // pageUrl is always a plain filename like 'blog.html'
     document.querySelectorAll('#nav-menu a').forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === pageUrl);
+        const href     = a.getAttribute('href') || '';
+        const filename = href.split('/').pop();   // handles '../blog.html' too
+        a.classList.toggle('active', filename === pageUrl);
     });
 }
 
+// Single document-level delegation — handles ALL nav clicks including
+// after AJAX swaps, and works correctly on mobile touch events.
+// Runs once; never needs rebinding.
 function bindNavLinks() {
-    document.querySelectorAll('a[href]').forEach(link => {
-        if (link.dataset.bound) return;
+    if (document._navBound) return;
+    document._navBound = true;
+
+    document.addEventListener('click', e => {
+        const link = e.target.closest('a[href]');
+        if (!link) return;
+        if (link.target === '_blank') return;
         const href = link.getAttribute('href');
-        if (!href || !pages[href] || link.target === '_blank') return;
-        link.dataset.bound = '1';
-        link.addEventListener('click', e => {
-            e.preventDefault();
-            loadPage(href);
-        });
+        if (!href) return;
+        // Resolve both 'blog.html' and '../blog.html' to just the filename
+        const filename = href.split('/').pop();
+        if (!filename || !pages[filename]) return;
+        e.preventDefault();
+        loadPage(filename);
     });
 }
 
@@ -473,26 +484,27 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.remove('open');
             hamburger.classList.remove('active');
             overlay?.classList.remove('show');
-            document.body.style.overflow = '';
+            // NOTE: do NOT set body overflow — breaks tap events on iOS/Android
         };
         const openMenu = () => {
             navMenu.classList.add('open');
             hamburger.classList.add('active');
             overlay?.classList.add('show');
-            document.body.style.overflow = 'hidden';
         };
 
         hamburger.addEventListener('click', () =>
             navMenu.classList.contains('open') ? closeMenu() : openMenu()
         );
-        navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+        // Event delegation — survives AJAX swaps, works on all mobile browsers
+        navMenu.addEventListener('click', e => {
+            const link = e.target.closest('a');
+            if (link) closeMenu();
+        });
+
         overlay?.addEventListener('click', closeMenu);
         window.addEventListener('resize', () => { if (window.innerWidth > 700) closeMenu(); });
     }
-
-    // ── MutationObserver: re-bind links after AJAX swaps ──
-    const ajaxRoot = document.getElementById('ajax-content') || document.body;
-    new MutationObserver(bindNavLinks).observe(ajaxRoot, { childList: true, subtree: true });
 
     // ── Determine current page & initialise ───────────────
     const currentPage = location.pathname.split('/').pop() || 'index.html';

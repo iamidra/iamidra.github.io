@@ -103,7 +103,7 @@
 # User-agent: *
 # Allow: /
 # Disallow: /security/
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap: https://iamidra.github.io/sitemap.xml
 
 ### sitemap.xml (create at mywebsite/sitemap.xml)
 # Lists all your pages for search engines.
