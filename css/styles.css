@@ -267,7 +267,6 @@ nav ul li a.active::after    { width: 100%; }
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.48);
-    backdrop-filter: blur(4px);
     z-index: 1100;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -956,7 +955,7 @@ footer a:hover { color: var(--accent); }
 
     /* Branding inside the drawer */
     #nav-menu::before {
-        content: 'Idra Cyber';
+        content: 'Swahili Cyber';
         position: absolute;
         top: 28px;
         left: 32px;
