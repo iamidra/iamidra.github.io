@@ -360,3 +360,65 @@ code,
     .post-intro { font-size: 1rem; }
     .post-body h2 { font-size: 1.25rem; }
 }
+/* =========================
+   OWASP SUMMARY TABLE
+========================= */
+.owasp-table {
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    margin: 28px 0;
+}
+
+.owasp-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 0;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    transition: background 0.2s ease;
+}
+
+.owasp-row:last-child { border-bottom: none; }
+
+.owasp-row:hover:not(.header-row) {
+    background: rgba(0, 217, 255, 0.04);
+}
+
+.owasp-row.header-row {
+    background: rgba(0, 217, 255, 0.07);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.owasp-row span:first-child {
+    color: var(--text);
+    font-weight: 600;
+    padding-right: 16px;
+    border-right: 1px solid var(--border);
+    margin-right: 16px;
+}
+
+.owasp-row.header-row span:first-child { color: var(--accent); }
+
+.owasp-row span:last-child { color: var(--muted); }
+
+.light-mode .owasp-row.header-row { background: rgba(0, 217, 255, 0.06); }
+
+@media (max-width: 600px) {
+    .owasp-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    .owasp-row span:first-child {
+        border-right: none;
+        margin-right: 0;
+        padding-right: 0;
+        color: var(--accent);
+    }
+}

