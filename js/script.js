@@ -61,9 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
             navMenu.classList.contains('open') ? closeMenu() : openMenu();
         });
 
-        // Close drawer on any nav link tap — browser handles navigation normally
+        // Close drawer on any nav link tap — browser handles navigation normally.
+        // We delay the close slightly to ensure mobile browsers register the tap & navigate before the drawer moves.
         navMenu.addEventListener('click', e => {
-            if (e.target.closest('a')) closeMenu();
+            if (e.target.closest('a')) {
+                setTimeout(closeMenu, 150);
+            }
         });
 
         if (overlay) overlay.addEventListener('click', closeMenu);
@@ -75,7 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Active nav link ───────────────────────────────────
     // Works from root AND from post/ subfolder (../blog.html → blog.html)
-    const currentFile = location.pathname.split('/').pop() || 'index.html';
+    let currentFile = location.pathname.split('/').pop() || 'index.html';
+
+    // If we are viewing a post page, highlight the BLOG nav item
+    if (location.pathname.includes('/post/')) {
+        currentFile = 'blog.html';
+    }
+
     document.querySelectorAll('#nav-menu a').forEach(a => {
         const href = a.getAttribute('href') || '';
         const file = href.split('/').pop();
@@ -100,6 +109,8 @@ function runPageFeatures(page) {
     initScrollReveal();
     initSurveyForm();
     initScrollTop();
+    renderReviews();
+    initSpotlightGlow();
 }
 
 // =========================
@@ -230,13 +241,46 @@ function initSurveyForm() {
     form.addEventListener('submit', e => {
         e.preventDefault();
         const name   = document.getElementById('fullname')?.value.trim();
-        const source = document.querySelector('input[name="source"]:checked');
-        const rating = document.querySelector('input[name="rating"]:checked');
+        const sourceEl = document.querySelector('input[name="source"]:checked');
+        const ratingEl = document.querySelector('input[name="rating"]:checked');
+        const likes = document.getElementById('likes')?.value.trim();
+        const improvements = document.getElementById('improvements')?.value.trim();
+        const comments = document.getElementById('comments')?.value.trim();
+
         if (!name)   { showNotification('Please enter your name.', 'error'); return; }
-        if (!source) { showNotification('Please tell us how you found this portfolio.', 'error'); return; }
-        if (!rating) { showNotification('Please rate the portfolio.', 'error'); return; }
+        if (!sourceEl) { showNotification('Please tell us how you found this portfolio.', 'error'); return; }
+        if (!ratingEl) { showNotification('Please rate the portfolio.', 'error'); return; }
+
+        const rating = parseInt(ratingEl.value, 10);
+        const sourceVal = sourceEl.value;
+        const sourceLabels = {
+            friend: "Friend / Colleague",
+            internet: "Internet Search",
+            social: "Social Media",
+            github: "GitHub visitor",
+            other: "Visitor"
+        };
+        const role = sourceLabels[sourceVal] || "Visitor";
+        
+        let text = comments || likes || improvements || `Rated ${rating}/5 stars!`;
+
+        const newReview = {
+            name: name,
+            role: role,
+            rating: rating,
+            text: text
+        };
+
+        const localData = localStorage.getItem('portfolio_reviews');
+        const localReviews = localData ? JSON.parse(localData) : [];
+        localReviews.push(newReview);
+        localStorage.setItem('portfolio_reviews', JSON.stringify(localReviews));
+
         showNotification('Thank you for your feedback! 🙏', 'success');
         form.reset();
+        
+        // Re-render testimonials instantly
+        renderReviews();
     });
 }
 
@@ -352,4 +396,105 @@ function showNotification(msg, type = 'success') {
     n.style.color = type === 'error' ? '#fff' : '#020617';
     document.body.appendChild(n);
     setTimeout(() => n.remove(), 3500);
+}
+
+// =========================
+// BASE REVIEWS & RENDER
+// =========================
+const BASE_REVIEWS = [
+    {
+        name: "Mohamed J.",
+        role: "Restaurant Owner",
+        rating: 5,
+        text: "Great attention to detail and really listens to client needs. Delivered exactly what I envisioned."
+    },
+    {
+        name: "Sarah K.",
+        role: "Tourism Company",
+        rating: 5,
+        text: "Professional, responsive, and delivers quality work on time. Would definitely work with Idra again."
+    },
+    {
+        name: "David M.",
+        role: "Collaborator",
+        rating: 5,
+        text: "Knowledgeable about both development and security — a rare combination that made our project much stronger."
+    }
+];
+
+function renderReviews() {
+    const reviewsGrid = document.getElementById('reviews-grid');
+    const surveyTestimonials = document.getElementById('survey-testimonials');
+    if (!reviewsGrid && !surveyTestimonials) return;
+
+    const localData = localStorage.getItem('portfolio_reviews');
+    const localReviews = localData ? JSON.parse(localData) : [];
+    const allReviews = [...BASE_REVIEWS, ...localReviews];
+
+    if (reviewsGrid) {
+        reviewsGrid.innerHTML = '';
+        allReviews.forEach(rev => {
+            const stars = '⭐'.repeat(rev.rating);
+            const card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <span class="review-stars" aria-label="${rev.rating} stars">${stars}</span>
+                <p class="review-text">"${rev.text}"</p>
+                <div class="review-author">${rev.name}</div>
+                <div class="review-role">${rev.role}</div>
+                <span class="review-quote">”</span>
+            `;
+            reviewsGrid.appendChild(card);
+        });
+    }
+
+    if (surveyTestimonials) {
+        surveyTestimonials.innerHTML = '';
+        allReviews.forEach(rev => {
+            const card = document.createElement('div');
+            card.className = 'testimonial-card';
+            card.innerHTML = `
+                <p>"${rev.text}"</p>
+                <span class="testimonial-author">— ${rev.name}, ${rev.role}</span>
+            `;
+            surveyTestimonials.appendChild(card);
+        });
+    }
+}
+
+// =========================
+// SPOTLIGHT MOUSE GLOW
+// =========================
+function initSpotlightGlow() {
+    // Only bind if cursor hover is supported (desktops/laptops)
+    if (!window.matchMedia('(hover: hover)').matches) return;
+
+    const selectCards = () => {
+        return document.querySelectorAll(
+            '.service-card, .project-card, .stat-box, .cert-card, .blog-card, .review-card, .faq-card, .blog-teaser-card, .value-card, .testimonial-card'
+        );
+    };
+
+    const attachSpotlight = (card) => {
+        if (card.dataset.spotlightBound) return;
+        card.dataset.spotlightBound = '1';
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    };
+
+    // Initial binding
+    selectCards().forEach(attachSpotlight);
+
+    // Re-bind when reviews are rendered dynamically
+    const observer = new MutationObserver(() => {
+        selectCards().forEach(attachSpotlight);
+    });
+    
+    const grids = document.querySelectorAll('#reviews-grid, #survey-testimonials');
+    grids.forEach(grid => observer.observe(grid, { childList: true }));
 }
