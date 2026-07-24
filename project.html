@@ -49,14 +49,26 @@
             <p>Real applications built for real problems — from a university past papers platform to conservation awareness sites and local business websites.</p>
         </div>
 
+        <!-- ===== PROJECT FILTERS ===== -->
+        <div class="project-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="web">Web Dev</button>
+            <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+            <button class="filter-btn" data-filter="security">Security / APIs</button>
+        </div>
+
         <!-- ===== PROJECTS GRID ===== -->
         <section aria-label="Project showcase">
             <div class="projects-grid">
 
                 <!-- ===== UNIPAPERS — FEATURED ===== -->
-                <div class="project-card project-featured">
-                    <div class="project-featured-badge">⭐ Featured Project</div>
-                    <img src="pictures/unipapers.png" alt="UniPapers — University past examination papers platform" loading="lazy" width="400" height="210" />
+                <div class="project-card project-featured" data-category="fullstack">
+                    <div class="project-featured-badge">⭐ Featured</div>
+                    <div class="project-status">🟢 Live</div>
+                    <div class="project-img-wrapper">
+                        <img src="pictures/unipapers.png" alt="UniPapers — University past examination papers platform" loading="lazy" width="400" height="210" />
+                        <div class="project-overlay"><a href="https://github.com/iamidra" class="overlay-btn" target="_blank" rel="noopener noreferrer">View Details</a></div>
+                    </div>
                     <div class="project-info">
                         <h3>UniPapers — Past Papers Platform</h3>
                         <p class="proj-desc">
@@ -83,16 +95,20 @@
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <img src="pictures/wild.png" alt="Tourism Showcase website — platform displaying tourist attractions in Tanzania" loading="lazy" width="400" height="210" />
+                <div class="project-card" data-category="fullstack">
+                    <div class="project-status">🟡 In Progress</div>
+                    <div class="project-img-wrapper">
+                        <img src="pictures/srms.png" alt="Student Record Management System" loading="lazy" width="400" height="210" />
+                        <div class="project-overlay"><a href="https://github.com/iamidra" class="overlay-btn" target="_blank" rel="noopener noreferrer">View Details</a></div>
+                    </div>
                     <div class="project-info">
-                        <h3>Tourism Showcase</h3>
-                        <p class="proj-desc">Built for a local tourism company to display services, attractions, and travel packages to potential visitors across Tanzania.</p>
+                        <h3>Student Record Management System (SRMS)</h3>
+                        <p class="proj-desc">A comprehensive platform for managing student records, grades, and administrative tasks securely and efficiently.</p>
                         <div class="tech-stack">
+                            <span class="tech-badge">PHP</span>
+                            <span class="tech-badge">MySQL</span>
                             <span class="tech-badge">HTML5</span>
                             <span class="tech-badge">CSS3</span>
-                            <span class="tech-badge">JavaScript</span>
-                            <span class="tech-badge">Responsive</span>
                         </div>
                         <div class="project-links">
                             <!-- <a href="#" class="proj-link">🔗 Live Demo</a> --> 
@@ -101,8 +117,12 @@
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <img src="pictures/life.png" alt="Safari Conservation website — awareness platform for endangered wildlife" loading="lazy" width="400" height="210" />
+                <div class="project-card" data-category="web">
+                    <div class="project-status">🟢 Completed</div>
+                    <div class="project-img-wrapper">
+                        <img src="pictures/life.png" alt="Safari Conservation website — awareness platform for endangered wildlife" loading="lazy" width="400" height="210" />
+                        <div class="project-overlay"><a href="https://github.com/iamidra" class="overlay-btn" target="_blank" rel="noopener noreferrer">View Details</a></div>
+                    </div>
                     <div class="project-info">
                         <h3>Safari Conservation</h3>
                         <p class="proj-desc">Interactive site raising awareness for endangered wildlife in Tanzania and promoting conservation with educational content and API integration.</p>
@@ -119,8 +139,12 @@
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <img src="pictures/rest.png" alt="Al Rant Restaurant website — modern restaurant with online menu and reservations" loading="lazy" width="400" height="210" />
+                <div class="project-card" data-category="fullstack">
+                    <div class="project-status">🟢 Live</div>
+                    <div class="project-img-wrapper">
+                        <img src="pictures/rest.png" alt="Al Rant Restaurant website — modern restaurant with online menu and reservations" loading="lazy" width="400" height="210" />
+                        <div class="project-overlay"><a href="https://github.com/iamidra" class="overlay-btn" target="_blank" rel="noopener noreferrer">View Details</a></div>
+                    </div>
                     <div class="project-info">
                         <h3>Al Rant Restaurant</h3>
                         <p class="proj-desc">Restaurant website showcasing local cuisine with an interactive menu, contact information, and an online reservation system backed by PHP and MySQL.</p>
@@ -138,8 +162,12 @@
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <img src="pictures/portfolio.png" alt="Personal Portfolio website screenshot" loading="lazy" width="400" height="210" />
+                <div class="project-card" data-category="web">
+                    <div class="project-status">🟢 Completed</div>
+                    <div class="project-img-wrapper">
+                        <img src="pictures/portfolio.png" alt="Personal Portfolio website screenshot" loading="lazy" width="400" height="210" />
+                        <div class="project-overlay"><a href="https://github.com/iamidra" class="overlay-btn" target="_blank" rel="noopener noreferrer">View Details</a></div>
+                    </div>
                     <div class="project-info">
                         <h3>Personal Portfolio</h3>
                         <p class="proj-desc">This portfolio — a modern, responsive website with AJAX navigation, dark/light mode, scroll animations, and a contact form.</p>
@@ -191,13 +219,29 @@
 
     </main>
 
-    <footer>
-        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
-            <a href="contact.html">📧 Contact</a>
-            <a href="survey.html">📝 Give Feedback</a>
+        <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>SwahiliCyber</h3>
+                <p>Building secure, modern, and responsive digital experiences.</p>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Updated</h4>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); showNotification('Subscribed to newsletter!', 'success');">
+                    <input type="email" placeholder="Enter your email" required />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
         </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Idra Mkumbanya. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="contact.html">Contact</a>
+                <a href="survey.html">Feedback</a>
+            </div>
+        </div>
+        <a href="#" id="scroll-top" class="back-to-top" aria-label="Back to top">↑</a>
     </footer>
 </body>
 </html>

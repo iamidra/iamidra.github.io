@@ -93,6 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Page-specific features ────────────────────────────
     runPageFeatures(currentFile);
+    initScrollProgress();
+    initSkillBars();
+    initProjectFilters();
 });
 
 // =========================
@@ -216,6 +219,80 @@ function initScrollReveal() {
         });
     }, { threshold: 0.12 });
     els.forEach(el => revealObserver.observe(el));
+}
+
+// =========================
+// SCROLL PROGRESS
+// =========================
+function initScrollProgress() {
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    document.body.appendChild(bar);
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        bar.style.width = scrolled + '%';
+    });
+}
+
+// =========================
+// SKILL BARS ANIMATION
+// =========================
+function initSkillBars() {
+    const skillBars = document.querySelectorAll('.skill-progress');
+    if (!skillBars.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bar = entry.target;
+                bar.style.width = bar.getAttribute('data-width');
+                observer.unobserve(bar);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    skillBars.forEach(bar => {
+        observer.observe(bar);
+    });
+}
+
+// =========================
+// PROJECT FILTERING
+// =========================
+function initProjectFilters() {
+    const filterBtns = document.querySelectorAll('.project-filters .filter-btn');
+    const projectCards = document.querySelectorAll('.projects-grid .project-card');
+    
+    if (!filterBtns.length || !projectCards.length) return;
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filterValue = btn.getAttribute('data-filter');
+            
+            projectCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                if (filterValue === 'all' || filterValue === category) {
+                    card.style.display = 'flex';
+                    // Quick re-trigger of animation
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(40px)';
+                    setTimeout(() => {
+                        card.style.transition = '0.35s ease, opacity 0.65s ease, transform 0.65s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
 }
 
 // =========================

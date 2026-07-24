@@ -107,7 +107,7 @@
 
         <!-- ===== STATS ===== -->
         <section class="stats-section" aria-label="Quick stats">
-            <div class="stat-box"><h3>4+</h3><p>Projects Completed</p></div>
+            <div class="stat-box"><h3>5+</h3><p>Projects Completed</p></div>
             <div class="stat-box"><h3>2+</h3><p>Years Learning</p></div>
             <div class="stat-box"><h3>5+</h3><p>Technologies Used</p></div>
             <div class="stat-box"><h3>100%</h3><p>Dedication</p></div>
@@ -121,16 +121,19 @@
                     <span class="service-icon">🌐</span>
                     <h3>Web Development</h3>
                     <p>Building responsive, modern websites using HTML, CSS, JavaScript, PHP, and MySQL.</p>
+                    <a href="project.html" class="service-cta">View Projects →</a>
                 </div>
                 <div class="service-card">
                     <span class="service-icon">🔒</span>
                     <h3>Cybersecurity</h3>
                     <p>Applying security principles to protect systems, networks, and data from threats.</p>
+                    <a href="blog.html" class="service-cta">Read Security Notes →</a>
                 </div>
                 <div class="service-card">
                     <span class="service-icon">🖧</span>
                     <h3>Networking</h3>
                     <p>Designing and securing network infrastructure — routing, switching, and firewalls.</p>
+                    <a href="contact.html" class="service-cta">Consult with Me →</a>
                 </div>
             </div>
         </section>
@@ -139,9 +142,15 @@
         <section>
             <h2>Tech Stack</h2>
             <div class="tech-stack-showcase" aria-label="Technologies I work with">
-                <span>HTML5</span><span>CSS3</span><span>JavaScript</span>
-                <span>PHP</span><span>MySQL</span><span>Linux</span>
-                <span>Git</span><span>Networking</span><span>Cybersecurity</span>
+                <span><img src="pictures/html.png" width="16" height="16" alt="" style="object-fit: contain;"/> HTML5</span>
+                <span>🎨 CSS3</span>
+                <span><img src="pictures/js.png" width="16" height="16" alt="" style="object-fit: contain;"/> JavaScript</span>
+                <span>🐘 PHP</span>
+                <span>🐬 MySQL</span>
+                <span>🐧 Linux</span>
+                <span>🐙 Git</span>
+                <span>🖧 Networking</span>
+                <span><img src="pictures/security.png" width="16" height="16" alt="" style="object-fit: contain;"/> Cybersecurity</span>
             </div>
         </section>
 
@@ -168,15 +177,15 @@
                     </div>
                 </div>
                 <div class="project-card">
-                    <img src="pictures/life.png" alt="Safari Conservation awareness platform" loading="lazy" width="400" height="210"/>
+                    <img src="pictures/srms.png" alt="Student records management system" loading="lazy" width="400" height="210"/>
                     <div class="project-info">
-                        <h3>Safari Conservation</h3>
-                        <p class="proj-desc">Interactive awareness platform promoting wildlife conservation in Tanzania with educational content.</p>
+                        <h3>Student Records Management System</h3>
+                        <p class="proj-desc">Full-stack platform for managing student records — with user authentication, data validation, and a responsive admin panel.</p>
                         <div class="tech-stack">
-                            <span class="tech-badge">HTML</span><span class="tech-badge">CSS</span><span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">PHP</span><span class="tech-badge">MYSQL</span><span class="tech-badge">JavaScript</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="proj-link">🔗 Live Demo</a>
+                            <!--<a href="#" class="proj-link">🔗 Live Demo</a>-->
                             <a href="https://github.com/iamidra" class="proj-link" target="_blank" rel="noopener noreferrer">📂 GitHub</a>
                         </div>
                     </div>
@@ -283,13 +292,29 @@
 
     </main>
 
-    <footer>
-        <p>&copy; 2025 Idra Mkumbanya. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">🐙 GitHub</a>
-            <a href="contact.html">📧 Contact</a>
-            <a href="survey.html">📝 Give Feedback</a>
+        <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>SwahiliCyber</h3>
+                <p>Building secure, modern, and responsive digital experiences.</p>
+            </div>
+            <div class="footer-newsletter">
+                <h4>Stay Updated</h4>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); showNotification('Subscribed to newsletter!', 'success');">
+                    <input type="email" placeholder="Enter your email" required />
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
         </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Idra Mkumbanya. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://github.com/iamidra" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="contact.html">Contact</a>
+                <a href="survey.html">Feedback</a>
+            </div>
+        </div>
+        <a href="#" id="scroll-top" class="back-to-top" aria-label="Back to top">↑</a>
     </footer>
 </body>
 </html>
