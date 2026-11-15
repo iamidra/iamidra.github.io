@@ -10,69 +10,199 @@ const pageTitles = {
     'blog.html':    'Blog & Writeups - Idra Mkumbanya | Security & Dev Notes',
 };
 
+// =========================================================
+// APPEARANCE / THEME SYSTEM
+// =========================================================
+const APPEARANCE_STORAGE_KEY = 'portfolio_theme';
+const LEGACY_STORAGE_KEY     = 'theme';
+
+function getStoredAppearance() {
+    try {
+        return localStorage.getItem(APPEARANCE_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
+    } catch (_) {
+        return null;
+    }
+}
+
+function getSystemAppearance() {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'light';
+    }
+    return 'dark';
+}
+
+function getActiveAppearance() {
+    return getStoredAppearance() || getSystemAppearance();
+}
+
+function updateThemeMetaTag(isLight) {
+    let meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'theme-color';
+        document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', isLight ? '#fafafa' : '#000000');
+}
+
+function syncAppearanceControls(theme) {
+    const isLight  = theme === 'light';
+    const icon     = isLight ? '☀️' : '🌙';
+    const label    = isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+
+    // 1. Toggle root class & browser theme color
+    document.documentElement.classList.toggle('light-mode', isLight);
+    updateThemeMetaTag(isLight);
+
+    // 2. Sync all appearance toggle buttons
+    const toggles = document.querySelectorAll('.theme-toggle, #theme-toggle, [data-appearance-toggle]');
+    toggles.forEach(btn => {
+        btn.textContent = icon;
+        btn.setAttribute('aria-label', label);
+        btn.setAttribute('title', label);
+        btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+    });
+}
+
+function setAppearance(theme, persist = true) {
+    if (persist) {
+        try {
+            localStorage.setItem(APPEARANCE_STORAGE_KEY, theme);
+            localStorage.setItem(LEGACY_STORAGE_KEY, theme);
+        } catch (_) {}
+    }
+    syncAppearanceControls(theme);
+    window.dispatchEvent(new CustomEvent('appearancechange', { detail: { theme } }));
+}
+
+function toggleAppearance() {
+    const current = document.documentElement.classList.contains('light-mode') ? 'light' : 'dark';
+    const next = current === 'light' ? 'dark' : 'light';
+    setAppearance(next, true);
+    return next;
+}
+
+function initAppearance() {
+    // Initial sync
+    const active = getActiveAppearance();
+    syncAppearanceControls(active);
+
+    // Event listener for appearance toggle buttons
+    const toggles = document.querySelectorAll('.theme-toggle, #theme-toggle, [data-appearance-toggle]');
+    toggles.forEach(btn => {
+        if (btn.dataset.appearanceBound) return;
+        btn.dataset.appearanceBound = '1';
+        btn.addEventListener('click', e => {
+            e.preventDefault();
+            toggleAppearance();
+        });
+    });
+
+    // Listen for OS scheme changes if user hasn't chosen manually
+    if (window.matchMedia) {
+        const media = window.matchMedia('(prefers-color-scheme: light)');
+        const listener = (e) => {
+            if (!getStoredAppearance()) {
+                syncAppearanceControls(e.matches ? 'light' : 'dark');
+            }
+        };
+        if (media.addEventListener) {
+            media.addEventListener('change', listener);
+        } else if (media.addListener) {
+            media.addListener(listener);
+        }
+    }
+}
+
+// =========================================================
+// NAVIGATION DRAWER (HAMBURGER)
+// =========================================================
+function initNavigationDrawer() {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu   = document.getElementById('nav-menu');
+    const overlay   = document.getElementById('menu-overlay');
+
+    if (!hamburger || !navMenu) return;
+
+    const closeMenu = () => {
+        navMenu.classList.remove('open');
+        hamburger.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        if (overlay) overlay.classList.remove('show');
+        document.body.classList.remove('menu-open');
+    };
+
+    const openMenu = () => {
+        navMenu.classList.add('open');
+        hamburger.classList.add('active');
+        hamburger.setAttribute('aria-expanded', 'true');
+        if (overlay) overlay.classList.add('show');
+        document.body.classList.add('menu-open');
+    };
+
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.setAttribute('aria-controls', 'nav-menu');
+
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navMenu.classList.contains('open') ? closeMenu() : openMenu();
+    });
+
+    // Handle link clicks inside the drawer
+    navMenu.addEventListener('click', e => {
+        const link = e.target.closest('a');
+        if (!link) return;
+
+        const href = link.getAttribute('href') || '';
+
+        // If it's an in-page anchor, close drawer smoothly
+        if (href.startsWith('#')) {
+            closeMenu();
+            return;
+        }
+
+        // If clicking the page we are already on, close drawer
+        const targetFile = href.split('/').pop().split('#')[0];
+        const currentFile = location.pathname.split('/').pop() || 'index.html';
+        if (targetFile === currentFile) {
+            closeMenu();
+        }
+        // For navigating to another page, allow natural browser navigation without reflow cancellation
+    });
+
+    if (overlay) {
+        overlay.addEventListener('click', closeMenu);
+    }
+
+    // Close on Escape key press
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && navMenu.classList.contains('open')) {
+            closeMenu();
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 700) {
+            closeMenu();
+        }
+    });
+}
+
 // =========================
 // DOM READY
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Theme ─────────────────────────────────────────────
-    const themeBtn = document.getElementById('theme-toggle');
-    if (themeBtn) {
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.add('light-mode');
-            themeBtn.textContent = '☀️';
-        }
-        themeBtn.addEventListener('click', () => {
-            const light = document.documentElement.classList.toggle('light-mode');
-            themeBtn.textContent = light ? '☀️' : '🌙';
-            localStorage.setItem('theme', light ? 'light' : 'dark');
-        });
-    }
+    // ── Appearance & Navigation System ────────────────────
+    initAppearance();
+    initNavigationDrawer();
 
-    // ── CV button ─────────────────────────────────────────
+    // ── CV button (desktop header) ────────────────────────
     const cvBtn = document.getElementById('download-cv');
     if (cvBtn) {
         cvBtn.addEventListener('click', e => {
             e.preventDefault();
             showNotification('CV coming soon — contact me directly for my resume.', 'info');
-        });
-    }
-
-    // ── Hamburger ─────────────────────────────────────────
-    const hamburger = document.getElementById('hamburger');
-    const navMenu   = document.getElementById('nav-menu');
-    const overlay   = document.getElementById('menu-overlay');
-
-    if (hamburger && navMenu) {
-
-        const closeMenu = () => {
-            navMenu.classList.remove('open');
-            hamburger.classList.remove('active');
-            if (overlay) overlay.classList.remove('show');
-        };
-
-        const openMenu = () => {
-            navMenu.classList.add('open');
-            hamburger.classList.add('active');
-            if (overlay) overlay.classList.add('show');
-        };
-
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.contains('open') ? closeMenu() : openMenu();
-        });
-
-        // Close drawer on any nav link tap — browser handles navigation normally.
-        // We delay the close slightly to ensure mobile browsers register the tap & navigate before the drawer moves.
-        navMenu.addEventListener('click', e => {
-            if (e.target.closest('a')) {
-                setTimeout(closeMenu, 150);
-            }
-        });
-
-        if (overlay) overlay.addEventListener('click', closeMenu);
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 700) closeMenu();
         });
     }
 
