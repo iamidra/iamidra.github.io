@@ -186,6 +186,12 @@ function initNavigationDrawer() {
             closeMenu();
         }
     });
+
+    window.addEventListener('pageshow', e => {
+        if (e.persisted) {
+            closeMenu();
+        }
+    });
 }
 
 // =========================
@@ -399,6 +405,8 @@ function initProjectFilters() {
     if (!filterBtns.length || !projectCards.length) return;
 
     filterBtns.forEach(btn => {
+        if (btn.dataset.bound) return;
+        btn.dataset.bound = '1';
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
@@ -407,18 +415,19 @@ function initProjectFilters() {
             
             projectCards.forEach(card => {
                 const category = card.getAttribute('data-category');
-                if (filterValue === 'all' || filterValue === category) {
-                    card.style.display = 'flex';
-                    // Quick re-trigger of animation
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(40px)';
+                const matches = (filterValue === 'all' || filterValue === category);
+                if (matches) {
+                    card.classList.remove('is-hidden');
+                    card.classList.add('slide-in');
+                    card.classList.remove('filter-animate');
+                    void card.offsetWidth;
+                    card.classList.add('filter-animate');
                     setTimeout(() => {
-                        card.style.transition = '0.35s ease, opacity 0.65s ease, transform 0.65s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 50);
+                        card.classList.remove('filter-animate');
+                    }, 350);
                 } else {
-                    card.style.display = 'none';
+                    card.classList.add('is-hidden');
+                    card.classList.remove('filter-animate');
                 }
             });
         });
